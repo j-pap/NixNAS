@@ -22,8 +22,10 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [ smartmontools ];
 
   postPatch = ''
-    substituteInPlace cli/Makefile --replace-warn "-static" "-shared-libgcc"
-    substituteInPlace scripts/ugreen-diskiomon --replace-warn "/usr/sbin/smartctl" "${lib.getExe' smartmontools "smartctl"}"
+    substituteInPlace cli/Makefile \
+      --replace-fail "-static" "-shared-libgcc"
+    substituteInPlace scripts/ugreen-diskiomon \
+      --replace-fail "/usr/sbin/smartctl" "${lib.getExe' smartmontools "smartctl"}"
   '';
 
   buildPhase = ''
